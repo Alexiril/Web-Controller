@@ -1,0 +1,25 @@
+{{ include: templates/header.html }}
+<link rel="stylesheet" href="$assets/css/billboard.css">
+<link rel="stylesheet" href="$assets/css/loader.css">
+<link rel="stylesheet" href="$assets/css/side-stack.css">
+<script src="$assets/js/side-stack.js"></script>
+<main class="billboard-wrapper">
+    <div class="billboard" id="auth-billboard">
+        <div class="billboard-headline">
+            Sign in
+            <md-icon id="auth-icon" class="override-material-icons">login</md-icon>
+        </div>
+        <form id="auth-form" class="billboard-form" autocomplete="on">
+            <md-outlined-text-field label="Username" id="auth-form-login" style="width:100%;min-width:400px">
+            </md-outlined-text-field>
+            <md-outlined-text-field type="password" label="Key or password" id="auth-form-key" style="width:100%;min-width:400px">
+            </md-outlined-text-field>
+        </form>
+        <md-filled-tonal-button id="auth-action" autofocus>
+            Sign in
+        </md-filled-tonal-button>
+    </div>
+    <div class="loader" style="display:none;" id="auth-loader"></div>
+</main>
+<script src="$assets/js/auth.js"></script>
+{{ include: templates/footer.html }}

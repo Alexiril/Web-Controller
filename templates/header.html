@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/$assets/css/dark.css">
+    <link rel="stylesheet" href="/$assets/css/light.css">
+    <link rel="stylesheet" href="/$assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="/$assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/$assets/js/import-material.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <script src="/$assets/js/shared.js"></script>
+    <title>{{ SITE_NAME }}</title>
+    <style>
+        body {
+            background: url("{{ USER_BACKGROUND }}") var(--md-sys-color-surface-container-lowest);
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        let theme = Cookies.get("theme");
+        if (theme == undefined) {
+            Cookies.set("theme", "dark");
+            theme = 'dark';
+        }
+        $("body").addClass(theme);
+    </script>
+    <header>
+        <div class="header-main-bar">
+            <md-outlined-icon-button id="actual-header-bar-home-button">
+                <md-icon class="override-material-icons">home</md-icon>
+            </md-outlined-icon-button>
+        </div>
+        <div class="header-change-theme-block">
+            <md-outlined-icon-button id="change-theme-button">
+                <md-icon class="override-material-icons">contrast</md-icon>
+            </md-outlined-icon-button>
+        </div>
+    </header>

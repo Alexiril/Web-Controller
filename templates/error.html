@@ -1,0 +1,24 @@
+{{ include: templates/header.html }}
+<link rel="stylesheet" href="$assets/css/billboard.css">
+<link rel="stylesheet" href="$assets/css/side-stack.css">
+<script src="$assets/js/side-stack.js"></script>
+<main class="billboard-wrapper">
+    <div class="billboard">
+        <md-icon id="error-icon" class="override-material-icons">error</md-icon>
+        <div class="billboard-headline" style="justify-content:center">
+            Error {{ ERROR_CODE }}: {{ ERROR_HUMAN_NAME }}
+        </div>
+        <form id="error-form" class="billboard-form" autocomplete="on">
+            {{ ERROR_DESCRIPTION }}
+        </form>
+        <md-filled-tonal-button href="/" value="back" id="error-action" autofocus>
+            Return to main page
+        </md-filled-tonal-button>
+    </div>
+</main>
+<script>
+    makeStack("additional-info-stack", "left-side bottom-side");
+    $("#additional-info-stack").addClass("side-stack-text");
+    addToStack("additional-info-stack", $(`<i>{{ ADDITIONAL_ERROR_INFO }}</i>`));
+</script>
+{{ include: templates/footer.html }}

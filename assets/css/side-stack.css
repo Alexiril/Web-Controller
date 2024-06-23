@@ -1,0 +1,28 @@
+.left-side {
+    left: 10px;
+}
+
+.right-side {
+    right: 10px;
+}
+
+.top-side {
+    top: 10px;
+}
+
+.bottom-side {
+    bottom: 10px;
+}
+
+.side-stack {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 5px;
+    z-index: 2;
+}
+
+.side-stack-text {
+    color: var(--md-sys-color-on-secondary-fixed-variant);
+}

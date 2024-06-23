@@ -1,0 +1,74 @@
+.override-material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-transform: none;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    font-feature-settings: "liga";
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
+
+.primary {
+    background: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+}
+
+.secondary {
+    background: var(--md-sys-color-secondary);
+    color: var(--md-sys-color-on-secondary);
+}
+
+.tertiary {
+    background: var(--md-sys-color-tertiary);
+    color: var(--md-sys-color-on-tertiary);
+}
+
+.error {
+    background: var(--md-sys-color-error);
+    color: var(--md-sys-color-on-error);
+}
+
+.surface {
+    background: var(--md-sys-color-surface-container);
+    color: var(--md-sys-color-on-surface);
+}
+
+body {
+    user-select: none;
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: var(--md-sys-color-on-surface);
+}
+
+header {
+    margin: 0;
+    padding: 1em;
+    background: var(--md-sys-color-surface-container-low);
+    display: flex;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 1000;
+}
+
+header .header-main-bar {
+    display: inline-flex;
+    gap: 1em;
+    align-items: center;
+    flex-grow: 0.75;
+    color: var(--md-sys-color-on-surface);
+}
+
+header .header-change-theme-block {
+    flex-grow: 0.25;
+    display: inline-flex;
+    text-align: right;
+    justify-content: flex-end;
+    align-items: center;
+}
