@@ -1,55 +1,64 @@
 from re import match
-from typing import TYPE_CHECKING
-from core.Config import SERVER
+from threading import Lock
+from typing import TYPE_CHECKING, Any
+from core.Config import read_config
 from core.Exceptions import NotFoundException
 from core.controllers.Api import ApiController
-from core.controllers.Application import ApplicationController
 from core.controllers.Assets import AssetsController
 from core.controllers.GenericTemplate import GenericTemplateController
 from core.controllers.Redirect import RedirectController
-from core.interfaces.Controller import Controller
-from core.interfaces.Route import Route
+from core.LockObject import LockObject
+from core.Controller import Controller
 
 if TYPE_CHECKING:
     from core.Handler import Handler
+    from core.User import User
+
+class Route:
+
+    
+    def __init__(self, regex: str, controller: Controller) -> None:
+        self.regex: str = regex
+        self.controller: Controller = controller
 
 class Router:
 
-    def __init__(self) -> None:
-        self.clear()
+    
+    def __init__(self, routes: list[Route]) -> None:
+        self._routes = routes.copy()
 
-    def add_route(self, regex: str, controller: Controller):
-        self._routes.append(Route(regex, controller))
-
-    def route(self, handler: "Handler", url: str):
+    def route(self, handler: "Handler", url: str, user: "User | None") -> bytes:
         for r in self._routes:
             if (m := match(r.regex, url)) != None:
-                return r.controller(handler, m.groups())
+                return r.controller(handler, m.groups(), user)
         raise NotFoundException(url)
-    
-    def clear(self):
-        self._routes: list[Route] = []
 
-_routes_cached: bool = False
-_router: Router = Router()
 
-def _setup_routes() -> Router | None:
-    global _routes_cached
-    if _routes_cached and SERVER.get("cache-router", True):
-        return
-    if SERVER.get("routes-debug", False):
-        print("\033[94mBuilding routes...\033[0m")
-    router = Router()
-    router.add_route(r"^/favicon\.ico$", RedirectController("$assets/favicon.ico"))
-    router.add_route(r"^/\$assets/(.*)$", AssetsController())
-    router.add_route(r"^/auth$", GenericTemplateController('templates/auth.html', {}))
-    router.add_route(r"^/api/(.+)$", ApiController())
-    router.add_route(r"^/$", ApplicationController())
-    _routes_cached = True
-    return router
+_router_cached_lock = Lock()
+with _router_cached_lock:
+    _routes_cached: bool = False
+router: LockObject[Router] = LockObject(Router, [])
 
-def get_router() -> Router:
-    global _router
-    if (r := _setup_routes()) != None:
-        _router = r
-    return _router
+
+def initialize() -> None:
+    global _routes_cached, router
+    with _router_cached_lock:
+        server_conf = read_config("Server", dict[str, Any])
+        if _routes_cached and server_conf.get("cache-router", True):
+            return
+        if server_conf.get("routes-debug", False):
+            print("\033[94mBuilding routes...\033[0m")
+    router.reset(Router([
+        Route(r"^/favicon\.ico$",
+              RedirectController('$assets/favicon.ico')),
+        Route(r"^/\$assets/(.*)$",
+              AssetsController()),
+        Route(r"^/auth$",
+              GenericTemplateController('templates/auth.html', {})),
+        Route(r"^/\$api/(.+)$",
+              ApiController()),
+        Route(r"^/$",
+              GenericTemplateController('templates/empty.app.html', {}, True))
+    ]))
+    with _router_cached_lock:
+        _routes_cached = True

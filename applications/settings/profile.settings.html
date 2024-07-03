@@ -1,0 +1,28 @@
+{{ include: templates/header.html }}
+<div class="window" data-win-init-x="center" data-win-init-y="top" style="display: none;">
+    <span class="window-event-blocker">
+        <link rel="stylesheet" href="$assets/css/shared/billboard.css">
+        <link rel="stylesheet" href="$assets/css/pages/settings.css">
+        <div class="billboard">
+            <div class="billboard-headline" style="justify-content:center">
+                Profile settings
+                <md-icon id="settings-icon" class="override-material-icons">account_circle</md-icon>
+            </div>
+            <div class="billboard-form">
+                <div class="settings-block">
+
+                </div>
+            </div>
+            <div class="billboard-buttons">
+                <md-filled-tonal-button id="accept-button">
+                    Accept
+                </md-filled-tonal-button>
+                <md-filled-tonal-button id="back-button">
+                    Cancel
+                </md-filled-tonal-button>
+            </div>
+        </div>
+        <script src="/$assets/js/pages/profile.settings.js"></script>
+    </span>
+</div>
+{{ include: templates/footer.html }}

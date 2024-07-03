@@ -4,17 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/$assets/css/dark.css">
-    <link rel="stylesheet" href="/$assets/css/light.css">
-    <link rel="stylesheet" href="/$assets/css/style.css">
+    <base href="{{ SITE_PROTO }}://{{ SITE_IP }}/">
+    <link rel="stylesheet" href="/$assets/css/shared/dark.css">
+    <link rel="stylesheet" href="/$assets/css/shared/light.css">
+    <link rel="stylesheet" href="/$assets/css/shared/style.css">
+    <link rel="stylesheet" href="/$assets/css/shared/window.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <script src="/$assets/js/jquery-3.7.1.min.js"></script>
-    <script src="/$assets/js/import-material.js" type="module"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
-    <script src="/$assets/js/shared.js"></script>
+    <script src="/$assets/js/shared/jquery-3.7.1.min.js"></script>
+    <script src="/$assets/js/shared/import-material.js" type="module"></script>
+    <script src="/$assets/js/shared/js.cookie.min.js"></script>
+    <link rel="stylesheet" href="/$assets/css/shared/side-stack.css">
+    <script src="/$assets/js/shared/side-stack.js"></script>
     <title>{{ SITE_NAME }}</title>
     <style>
         body {
@@ -31,16 +34,23 @@
             theme = 'dark';
         }
         $("body").addClass(theme);
+        makeStack("log-stack", "left-side bottom-side", 20);
+        $("#log-stack").addClass("side-stack-text");
+        let page = "{{ URL }}";
+        if (page.length > 24)
+            page = "..." + page.substr(page.length - 24, 24);
+        addToStack("log-stack", $(`<span>Page ${page} loaded.</span>`));
     </script>
     <header>
-        <div class="header-main-bar">
-            <md-outlined-icon-button id="actual-header-bar-home-button">
+        <div class="header-left-bar">
+            <md-outlined-icon-button id="home-button">
                 <md-icon class="override-material-icons">home</md-icon>
             </md-outlined-icon-button>
         </div>
-        <div class="header-change-theme-block">
+        <div class="header-right-bar">
             <md-outlined-icon-button id="change-theme-button">
                 <md-icon class="override-material-icons">contrast</md-icon>
             </md-outlined-icon-button>
         </div>
     </header>
+    <main>

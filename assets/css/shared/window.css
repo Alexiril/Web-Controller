@@ -1,0 +1,26 @@
+.window {
+    position: relative;
+    width: fit-content;
+    padding: 1em;
+    padding-top: 2.5em;
+    border-start-start-radius: var(--md-dialog-container-shape-start-start, var(--md-dialog-container-shape, var(--md-sys-shape-corner-extra-large, 28px)));
+    border-start-end-radius: var(--md-dialog-container-shape-start-end, var(--md-dialog-container-shape, var(--md-sys-shape-corner-extra-large, 28px)));
+    border-end-end-radius: var(--md-dialog-container-shape-end-end, var(--md-dialog-container-shape, var(--md-sys-shape-corner-extra-large, 28px)));
+    border-end-start-radius: var(--md-dialog-container-shape-end-start, var(--md-dialog-container-shape, var(--md-sys-shape-corner-extra-large, 28px)));
+    border: solid transparent 1px;
+}
+
+.window:hover {
+    background: radial-gradient(circle at .5px .5px, var(--md-sys-color-primary) 1px, transparent 0) var(--md-sys-color-surface-container);
+    background-size: 15px 15px;
+    background-position: 5px 5px;
+    border: dashed var(--md-sys-color-primary) 1px;
+}
+
+.window-event-blocker {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}

@@ -55,20 +55,42 @@ header {
     left: 0px;
     right: 0px;
     z-index: 1000;
-}
-
-header .header-main-bar {
-    display: inline-flex;
-    gap: 1em;
-    align-items: center;
-    flex-grow: 0.75;
     color: var(--md-sys-color-on-surface);
 }
 
-header .header-change-theme-block {
-    flex-grow: 0.25;
+header .header-left-bar {
+    flex-grow: 0.5;
     display: inline-flex;
+    gap: 1em;
+    text-align: left;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+header .header-right-bar {
+    flex-grow: 0.5;
+    display: inline-flex;
+    gap: 1em;
     text-align: right;
     justify-content: flex-end;
     align-items: center;
+}
+
+main {
+    min-width: 100vw;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    overflow-x: auto;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+    scrollbar-color: var(--md-sys-color-primary) var(--md-sys-color-surface-container-lowest);
+}
+
+#open-app-button {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
 }

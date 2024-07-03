@@ -1,45 +1,33 @@
+from datetime import timedelta
+from threading import Lock
 from typing import Any
+
+from core.Exceptions import ConfigException
+from core.LockObject import LockObject
 
 # Configuration caching
 
-__configuration: None | dict[str, Any] = None
-__config_read = False
+_configuration: LockObject[dict[str, Any]] = LockObject(dict[str, Any])
+_config_read = False
+_config_read_lock = Lock()
 
 # Actual configuration values
 
-APPS: dict[str, str] = {}
-USERS: dict[str, Any] = {}
-SERVER: dict[str, Any] = {}
+CSRF_TOKEN_LENGTH: int = 128
+CSRF_TOKEN_LIVES: timedelta = timedelta(minutes=10)
+AUTH_TOKEN_LIVES: timedelta = timedelta(days=1)
 
-def __read_config() -> None:
-    """
-    Internal function that loads the application.config
-    JSON file and sets the configuration values.
-    
-    * Works only if the global __config_read flag is set to False to
-    prevent updating configuration from file each request.
-    """
-    global __config_read
-    if __config_read:
-        return
-    global __configuration
-    from json import JSONDecoder
-    from os.path import exists, isfile
-    if not exists('application.config') or not isfile('application.config'):
-        return
-    with open('application.config') as file:
-        __configuration = JSONDecoder().decode(file.read())
-    __config_read = True
-    config_map: dict[str, str] = {
-        "APPS": "Applications",
-        "USERS": "Users",
-        "SERVER": "Server"
-    }
-    from sys import modules
-    this = modules[__name__]
-    for key, value in config_map.items():
-        setattr(this, key, 
-                getattr(__configuration, 'get', lambda _, y: y)
-                (value, getattr(this, key, None)))
 
-__read_config()
+def read_config[T](config_value: str, result_type: type[T] = type(Any)) -> T:
+    global _config_read, _configuration, _config_read_lock
+    with _config_read_lock:
+        if not _config_read:
+            from json import JSONDecoder
+            from os.path import exists, isfile
+            if not exists('application.config') or not isfile('application.config'):
+                raise ConfigException("Configuration file doesn't exist.")
+            with open('application.config') as file:
+                _configuration.reset(JSONDecoder().decode(file.read()))
+            _config_read = True
+    with _configuration as conf:
+            return conf[config_value]
